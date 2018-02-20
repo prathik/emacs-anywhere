@@ -53,7 +53,7 @@ if [[ $OSTYPE == "darwin"* ]]; then
   # whatever is copied on to the newly
   # created file
   # pbpaste >> $TMPFILE
-  open -W -a Emacs $TMPFILE
+  /usr/local/bin/emacsclient -c $TMPFILE || open -W -a Emacs $TMPFILE
   # todo, fix invalid file
   
   # NOTE
