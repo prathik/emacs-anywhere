@@ -1,6 +1,6 @@
 # emacs-anywhere
 
-emacs-anywhere is inspired from cknadler/vim-anywhere and is a fork of it to work on emacs. Shout out to @cknadler for his work on vim-anywhere.
+emacs-anywhere is inspired from [cknadler/vim-anywhere](https://github.com/cknadler/vim-anywhere) and is a fork of it to work on emacs. Shout out to [@cknadler](https://github.com/cknadler/) for his awesome work on vim-anywhere.
 
 emacs-anywhere is currently built only for Mac OSX. I reckon it shouldn't be difficult to add support for Ubuntu/Linux, however I don't have access to those hosts to test and I am generally on Mac OSX therefore this is built for that. Please feel free to raise a PR for other OS.
 
