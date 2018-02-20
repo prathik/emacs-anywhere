@@ -68,14 +68,7 @@ if git rev-parse --git-dir &> /dev/null; then
   unset $(git rev-parse --local-env-vars) &> /dev/null
 fi
 
-# Linux specific checks
-if [[ $OSTYPE == "linux-gnu" ]]; then
-  require_one_installed gconftool gsettings
-  require_installed gvim
-  require_installed xclip
-
-# OSX specific checks
-elif [[ $OSTYPE == "darwin"* ]]; then
+if [[ $OSTYPE == "darwin"* ]]; then
   require_installed emacs 'Run `brew install emacs --with-cocoa`.'
 
 # Unsupported OS
@@ -92,36 +85,10 @@ echo "Installing emacs-anywhere..."
 
 git clone $AW_URL $AW_PATH
 
-# Linux install
-if [[ $OSTYPE == "linux-gnu" ]]; then
-  name="emacs-anywhere"
-  binding="<CTRL><ALT>v"
-  action=$AW_PATH/bin/run
-
-  # We always try gconftool first. It is deprecated so it won't be on newer
-  # installs. If it's installed, we know we are on older versions of Gnome.
-  if check_installed gconftool; then
-    kbd_path=/desktop/gnome/keybindings/emacs-anywhere
-    gconftool -t str --set $kbd_path/name $name
-    gconftool -t str --set $kbd_path/binding $binding
-    gconftool -t str --set $kbd_path/action $action
-
-  # At this point, we know we are using dconf, the currently supported settings
-  # manager. gsettings is the gnome client for dconf.
-  else
-    media_keys=org.gnome.settings-daemon.plugins.media-keys
-    custom_kbd=org.gnome.settings-daemon.plugins.media-keys.custom-keybindings
-    kbd_path=/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/emacs-anywhere
-    gsettings set $media_keys custom-keybindings "['others', '$kbd_path']"
-    gsettings set $custom_kbd:$kbd_path name $name
-    gsettings set $custom_kbd:$kbd_path binding $binding
-    gsettings set $custom_kbd:$kbd_path command $action
-  fi
-
 # OSX install
-elif [[ $OSTYPE == "darwin"* ]]; then
+if [[ $OSTYPE == "darwin"* ]]; then
   # store the absolute path to the mvim executable
-  which mvim > $AW_PATH/.path
+  which emacs > $AW_PATH/.path
 
   # install the workflow as a service
   mkdir -p $HOME/Library/Services
