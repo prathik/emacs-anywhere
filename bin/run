@@ -49,7 +49,10 @@ if [[ $OSTYPE == "darwin"* ]]; then
     "Please reinstall emacs-anywhere."
 
   app=$(osascript $AW_PATH/script/current_app.scpt)
-  pbpaste >> $TMPFILE
+  # Uncomment below line to auto-paste
+  # whatever is copied on to the newly
+  # created file
+  # pbpaste >> $TMPFILE
   open -W -a Emacs $TMPFILE
   # todo, fix invalid file
   
