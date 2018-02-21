@@ -69,7 +69,16 @@ if git rev-parse --git-dir &> /dev/null; then
 fi
 
 if [[ $OSTYPE == "darwin"* ]]; then
-  require_installed emacs 'Run `brew install emacs --with-cocoa`.'
+    require_installed emacs 'Run `brew install emacs --with-cocoa`.'
+
+    # Check for Emacs with GUI support
+    if ! open -a Emacs --args --eval "(kill-emacs)"; then
+	echo 'Emacs has not been installed with GUI support'
+	echo 'Please run brew install emacs --with-cocoa'
+	exit 1
+    fi
+fi
+
 
 # Unsupported OS
 else
