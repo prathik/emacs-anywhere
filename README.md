@@ -1,8 +1,10 @@
 # emacs-anywhere
 
-emacs-anywhere is inspired from [cknadler/vim-anywhere](https://github.com/cknadler/vim-anywhere) and is a fork of it to work on emacs. Shout out to [@cknadler](https://github.com/cknadler/) for his awesome work on vim-anywhere.
+## Why?
 
-emacs-anywhere is currently built only for Mac OSX. I reckon it shouldn't be difficult to add support for Ubuntu/Linux, however I don't have access to those hosts to test and I am generally on Mac OSX therefore this is built for that. Please feel free to raise a PR for other OS.
+Many times you'd like to edit or create content on Emacs and then put it somewhere else. This process is made seamless. Hit the keyboard shortcut to load emacs and when you save and quit that content will be copied on to the clipboard.
+
+emacs-anywhere is currently built for Mac OSX.
 
 ![demo](assets/demo.gif)
 
@@ -70,6 +72,9 @@ $ emacs $( ls /tmp/emacs-anywhere | sort -r | head -n 1 )
 ## Contributing
 
 Pull requests, suggestions and issues of any kind are welcome with open arms.
+
+## Credits
+emacs-anywhere is inspired from [cknadler/vim-anywhere](https://github.com/cknadler/vim-anywhere) and is a fork of it to work on emacs. Shout out to [@cknadler](https://github.com/cknadler/) for his awesome work on vim-anywhere.
 
 ## License
 
