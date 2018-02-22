@@ -77,9 +77,6 @@ if [[ $OSTYPE == "darwin"* ]]; then
 	echo 'Please run brew install emacs --with-cocoa'
 	exit 1
     fi
-fi
-
-
 # Unsupported OS
 else
   echo "OS '$OSTYPE' is not supported!"
