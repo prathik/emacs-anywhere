@@ -44,24 +44,29 @@ touch $TMPFILE
 
 # OSX
 if [[ $OSTYPE == "darwin"* ]]; then
-  # if there is no path file, it must have been deleted or the installer failed
-  require_file_exists $AW_PATH/.path \
-    "Please reinstall emacs-anywhere."
+    # if there is no path file, it must have been deleted or the installer failed
+    require_file_exists $AW_PATH/.path \
+			"Please reinstall emacs-anywhere."
 
-  app=$(osascript $AW_PATH/script/current_app.scpt)
-  # Uncomment below line to auto-paste
-  # whatever is copied on to the newly
-  # created file
-  # pbpaste >> $TMPFILE
-  /usr/local/bin/emacsclient -c $TMPFILE || open -W -a Emacs $TMPFILE
-  # todo, fix invalid file
+    app=$(osascript $AW_PATH/script/current_app.scpt)
+    # Uncomment below line to auto-paste
+    # whatever is copied on to the newly
+    # created file
+    # pbpaste >> $TMPFILE
+    /usr/local/bin/emacsclient -c $TMPFILE || open -W -a Emacs $TMPFILE
+    # todo, fix invalid file
   
-  # NOTE
-  # Here we set LANG explicitly to be UTF-8 compatible when copying text. The only way that was explicitly
-  # setting this to en_US.UTF-8. This may eventually cause issues with other languages. If so, just remove
-  # the LANG setting.
-  # LANG=en_US.UTF-8 
-  LANG=en_US.UTF-8
-  pbcopy < $TMPFILE
-  osascript -e "activate application \"$app\""
+    # NOTE
+    # Here we set LANG explicitly to be UTF-8 compatible when copying text. The only way that was explicitly
+    # setting this to en_US.UTF-8. This may eventually cause issues with other languages. If so, just remove
+    # the LANG setting.
+    # LANG=en_US.UTF-8 
+    LANG=en_US.UTF-8
+    pbcopy < $TMPFILE
+    osascript -e "activate application \"$app\""
+  
+elif [[ $OSTYPE == "linux-gnu" ]]; then
+    chmod o-r $TMPFILE # Make file only readable by you
+    gvim $VIM_OPTS $TMPFILE
+    cat $TMPFILE | xclip -selection clipboard
 fi

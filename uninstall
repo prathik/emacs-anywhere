@@ -36,7 +36,19 @@ rm -rf $AW_PATH $DOC_PATH
 
 # OSX uninstall
 if [[ $OSTYPE == "darwin"* ]]; then
-  rm -rf $HOME/Library/Services/EmacsAnywhere.workflow
+    rm -rf $HOME/Library/Services/EmacsAnywhere.workflow
+elif [[ $OSTYPE == "linux-gnu" ]]; then
+    if check_installed gconftool; then
+	kbd_path=/desktop/gnome/keybindings/emacs-anywhere
+	gconftool --unset $kbd_path/name
+	gconftool --unset $kbd_path/binding
+	gconftool --unset $kbd_path/action
+
+    else # gsettings must be installed
+	custom_kbd=org.gnome.settings-daemon.plugins.media-keys.custom-keybinding
+	kbd_path=/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/emacs-anywhere/
+	gsettings reset-recursively $custom_kbd:$kbd_path
+    fi
 fi
 
 echo "emacs-anywhere has been successfully uninstalled!"

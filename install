@@ -77,6 +77,11 @@ if [[ $OSTYPE == "darwin"* ]]; then
 	echo 'Please run brew install emacs --with-cocoa'
 	exit 1
     fi
+elif [[ $OSTYPE == "linux-gnu" ]]; then
+    require_one_installed gconftool gsettings
+    require_installed gvim
+    require_installed xclip
+
 # Unsupported OS
 else
   echo "OS '$OSTYPE' is not supported!"
@@ -108,6 +113,28 @@ if [[ $OSTYPE == "darwin"* ]]; then
   # As a partial workaround, run a script that opens the shortcut options
   echo "Opening System Preferences..."
   osascript $AW_PATH/script/open_shortcuts.scpt &> /dev/null
-fi
+  
+elif [[ $OSTYPE == "linux-gnu" ]]; then
+    name="emacs-anywhere"
+    binding="<CTRL><ALT>v"
+    action=$AW_PATH/bin/run
 
+    if check_installed gconftool; then
+	# setting up for gconftool
+	kbd_path=/desktop/gnome/keybindings/emacs-anywhere
+	gconftool -t str --set $kbd_path/name $name
+	gconftool -t str --set $kbd_path/binding $binding
+	gconftool -t str --set $kbd_path/action $action
+    else
+	# setting up for dconf
+	media_keys=org.gnome.settings-daemon.plugins.media-keys
+	custom_kbd=org.gnome.settings-daemon.plugins.media-keys.custom-keybinding
+	kbd_path=/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/emacs-anywhere/
+	new_bindings=`gsettings get $media_keys custom-keybindings | sed -e"s>'\]>','$kbd_path']>"| sed -e"s>@as \[\]>['$kbd_path']>"`
+	gsettings set $media_keys custom-keybindings "$new_bindings"
+	gsettings set $custom_kbd:$kbd_path name $name
+	gsettings set $custom_kbd:$kbd_path binding $binding
+	gsettings set $custom_kbd:$kbd_path command $action
+    fi
+fi
 echo "emacs-anywhere has been successfully installed!"
